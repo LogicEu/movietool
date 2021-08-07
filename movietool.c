@@ -1,3 +1,4 @@
+#include <xlsxwriter/xlsxwriter.h>
 #include <pdftool/pdftool.h>
 #include <utopia/Utopia.h>
 #include <stdio.h>
@@ -5,9 +6,6 @@
 #include <string.h>
 #include <ctype.h>
 
-#include <xlsxwriter/xlsxwriter.h>
-
-#define BUG printf("MARK! %s, %d, %s\n", __FILE__, __LINE__, __func__)
 #define BUFF_SIZE 1024
 
 static char* moments[] = {
