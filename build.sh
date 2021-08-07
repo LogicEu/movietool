@@ -6,7 +6,6 @@ src=*.c
 
 flags=(
     -Wall
-    -Wextra
     -O2
     -std=c99
 )
@@ -14,19 +13,38 @@ flags=(
 inc=(
     -I.
     -Iinclude/
-    -lz
+)
+
+lib=(
+    -Llib/
     -lpdftool
     -lutopia
+    -lz
     -lxlsxwriter
 )
 
+
 build() {
-    
+    pushd utopia/
+    ./build.sh -slib
+    popd
+    pushd pdftool/
+    ./build.sh -s
+    popd
+
+    mkdir lib/
+    mv utopia/libutopia.a lib/libutopia.a
+    mv pdftool/libpdftool.a lib/libpdftool.a
 }
 
 comp() {
     echo "Compiling $name"
-    $comp ${flags[*]} ${inc[*]} $src -o $name
+    $comp ${flags[*]} ${inc[*]} ${lib[*]} $src -o $name
+}
+
+clean() {
+    rm -r lib/
+    rm $name
 }
 
 fail() { 
@@ -36,12 +54,18 @@ fail() {
 
 if [[ $# < 1 ]]; then 
     fail
+elif [[ "$1" == "-build" ]]; then
+    build
 elif [[ "$1" == "-comp" ]]; then
+    build
     comp
 elif [[ "$1" == "-run" ]]; then 
     shift
+    build
     comp
     ./$name "$@"
+elif [[ "$1" == "-clean" ]]; then
+    clean
 else 
     fail
 fi

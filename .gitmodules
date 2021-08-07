@@ -1,0 +1,6 @@
+[submodule "pdftool"]
+	path = pdftool
+	url = git@github.com:LogicEu/pdftool.git
+[submodule "utopia"]
+	path = utopia
+	url = git@github.com:LogicEu/utopia.git

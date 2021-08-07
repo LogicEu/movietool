@@ -1,5 +1,5 @@
 #include <pdftool/pdftool.h>
-#include <Utopia/Utopia.h>
+#include <utopia/Utopia.h>
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
