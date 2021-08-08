@@ -214,15 +214,15 @@ static array_t* script_report(const char* path, array_t* keywords)
             if (haschar('.', line)) {
                 sscanf(line, "%u.", &page_mark);
             } else if (!foundNum) {
-                unsigned int dummy;
-                sscanf(line, "%u", &dummy);
-                if (dummy != scene_mark) {
-                    scene_mark = dummy;
+                unsigned int num;
+                sscanf(line, "%u", &num);
+                if (num == scene_mark + 1) {
+                    scene_mark = num;
                     foundNum = true;
                 }
                 printf("%s - %d\n", line, scene_mark);
             }
-            //printf("Page: %u - Scene: %u\n%s", page_mark, scene_mark, line);
+            printf("Page: %u - Scene: %u\n%s", page_mark, scene_mark, line);
         }
         //Scene Header 
         if (sub_string_find(line, "INT", size) != -1 ||
