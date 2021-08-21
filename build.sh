@@ -1,7 +1,7 @@
 #!/bin/bash
 
 name=movietool
-comp=gcc
+cc=gcc
 src=*.c
 
 flags=(
@@ -23,23 +23,19 @@ lib=(
     -lxlsxwriter
 )
 
+build_lib() {
+    pushd $1/ && ./build.sh $2 && mv *.a ../lib/ && popd
+}
 
 build() {
-    pushd utopia/
-    ./build.sh -slib
-    popd
-    pushd pdftool/
-    ./build.sh -s
-    popd
-
     mkdir lib/
-    mv utopia/libutopia.a lib/libutopia.a
-    mv pdftool/libpdftool.a lib/libpdftool.a
+    build_lib utopia -slib
+    build_lib pdftool -s
 }
 
 comp() {
     echo "Compiling $name"
-    $comp ${flags[*]} ${inc[*]} ${lib[*]} $src -o $name
+    $cc ${flags[*]} ${inc[*]} ${lib[*]} $src -o $name
 }
 
 clean() {
@@ -52,20 +48,16 @@ fail() {
     exit
 }
 
-if [[ $# < 1 ]]; then 
-    fail
-elif [[ "$1" == "-build" ]]; then
-    build
-elif [[ "$1" == "-comp" ]]; then
-    build
-    comp
-elif [[ "$1" == "-run" ]]; then 
-    shift
-    build
-    comp
-    ./$name "$@"
-elif [[ "$1" == "-clean" ]]; then
-    clean
-else 
-    fail
-fi
+case "$1" in
+    "-build")
+        build;;
+    "-comp")
+        build && comp;;
+    "-run")
+        shift 
+        build && comp && ./$name "$@";;
+    "-clean")
+        clean;;
+    *)
+        fail;;
+esac

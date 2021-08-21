@@ -1,6 +1,6 @@
 #include <xlsxwriter/xlsxwriter.h>
 #include <pdftool/pdftool.h>
-#include <utopia/Utopia.h>
+#include <utopia/utopia.h>
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
